@@ -74,6 +74,55 @@ Seleção de projetos em Java e Python com foco em fundamentos de engenharia. Ca
 
 [Repositório](https://github.com/Petrocelli900/sqlite-task-api-python) · [Decisões](https://github.com/Petrocelli900/sqlite-task-api-python/blob/main/docs/decisions.md)
 
+
+## 07 · Cache LRU com expiração — Java
+
+**Problema:** limitar memória e descartar conteúdo antigo preservando itens recentemente utilizados.
+
+**Implementação:** cache genérico com capacidade limitada, TTL após escrita, LinkedHashMap em ordem de acesso e Clock injetável. Operações sincronizadas.
+
+**Verificação:** ordem LRU, expiração no limite exato, renovação por escrita, invalidação, entradas inválidas e concorrência.
+
+**Compromisso:** purga custa O(n); tempo civil pode sofrer ajustes. Sem cache distribuído, carregamento ou persistência.
+
+[Repositório](https://github.com/Petrocelli900/expiring-lru-cache-java) · [Decisões](https://github.com/Petrocelli900/expiring-lru-cache-java/blob/main/docs/decisions.md)
+
+## 08 · Cálculo de checkout — Java
+
+**Problema:** calcular descontos e frete com regras previsíveis e precisão monetária.
+
+**Implementação:** função pura, valores BRL com BigDecimal, desconto global arredondado e faixa de frete avaliada após o desconto. Resultado imutável.
+
+**Verificação:** arredondamento de meio centavo, desconto de 100%, carrinho vazio, SKU duplicado, quantidades e precisão inválidas e independência da lista de origem.
+
+**Compromisso:** regras comerciais demonstrativas, sem impostos, múltiplas moedas, reserva de estoque ou cobrança.
+
+[Repositório](https://github.com/Petrocelli900/checkout-pricing-java) · [Decisões](https://github.com/Petrocelli900/checkout-pricing-java/blob/main/docs/decisions.md)
+
+## 09 · Integridade de arquivos — Python
+
+**Problema:** identificar alterações de conteúdo em um conjunto de arquivos entre duas varreduras.
+
+**Implementação:** SHA-256 em blocos, manifesto JSON ordenado e comparação de arquivos adicionados, removidos e alterados.
+
+**Verificação:** seis testes cobrem hash conhecido, nomes Unicode, mudanças de conteúdo, diretório vazio, caminhos inválidos, links simbólicos e códigos de saída.
+
+**Compromisso:** não é backup nem prova de autenticidade; requer árvore estável e manifesto protegido. Sem snapshot atômico.
+
+[Repositório](https://github.com/Petrocelli900/file-integrity-python) · [Decisões](https://github.com/Petrocelli900/file-integrity-python/blob/main/docs/decisions.md)
+
+## 10 · Planejador de dependências — Python
+
+**Problema:** definir uma ordem válida de tarefas e identificar quais podem pertencer à mesma onda.
+
+**Implementação:** algoritmo de Kahn, ordenação estável por nome, detecção de bloqueios por ciclos e validação de dependências desconhecidas.
+
+**Verificação:** seis testes cobrem grafo diamante, componentes desconectados, duplicatas, ciclos, autorreferência, grafo vazio e CLI.
+
+**Compromisso:** só produz o plano; não executa tarefas nem gerencia recursos. A lista de bloqueados inclui dependentes dos ciclos.
+
+[Repositório](https://github.com/Petrocelli900/dependency-planner-python) · [Decisões](https://github.com/Petrocelli900/dependency-planner-python/blob/main/docs/decisions.md)
+
 ---
 
 Implementações iniciais criadas com assistência de IA. Este portfólio registra projetos de estudo e não atribui experiência profissional ou resultados de produção a essas demonstrações.
